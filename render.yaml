@@ -1,8 +1,9 @@
 services:
 
   - type: web
+    runtime: java
     name: safetravels-backend
-    env: java
+
     rootDir: travelagency
 
     buildCommand: "./mvnw clean install"
@@ -14,6 +15,7 @@ services:
   - type: web
     runtime: static
     name: safetravels-frontend
+
     rootDir: travelagency-frontend
 
     buildCommand: "npm install && npm run build"
