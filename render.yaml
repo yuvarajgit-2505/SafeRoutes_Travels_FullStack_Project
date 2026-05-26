@@ -11,10 +11,13 @@ services:
 
     plan: free
 
-  - type: static
+  - type: web
+    runtime: static
     name: safetravels-frontend
     rootDir: travelagency-frontend
 
     buildCommand: "npm install && npm run build"
 
     staticPublishPath: build
+
+    plan: free
