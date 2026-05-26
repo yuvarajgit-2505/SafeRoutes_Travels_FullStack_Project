@@ -1,0 +1,173 @@
+.seat-layout-card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:
+    0 4px 20px
+    rgba(0,0,0,0.1);
+}
+
+.driver-section{
+
+    width:120px;
+
+    margin-left:auto;
+
+    background:#0d6efd;
+
+    color:white;
+
+    text-align:center;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    margin-bottom:30px;
+}
+
+.bus-layout{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(5, 90px);
+
+    column-gap:18px;
+
+    row-gap:35px;
+
+    justify-content:center;
+}
+
+.seat{
+
+    width:80px;
+
+    height:80px;
+
+    border:2px solid #0d6efd;
+
+    border-radius:15px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:0.3s;
+
+    background:white;
+}
+
+.sleeper-seat{
+
+    width:85px !important;
+
+    height:170px !important;
+
+    border:2px solid #0d6efd;
+
+    border-radius:14px;
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+    transition:0.3s;
+
+    background:white;
+}
+
+.bus-layout .sleeper-seat:nth-child(4n-1){
+
+    grid-column:4;
+}
+
+.bus-layout .sleeper-seat:nth-child(4n){
+
+    grid-column:5;
+}
+
+.seat:hover{
+
+    transform:scale(1.08);
+
+    background:#e7f1ff;
+}
+
+.selected{
+
+    background:#198754 !important;
+
+    color:white;
+}
+
+.booked{
+
+    background:#dc3545 !important;
+
+    color:white;
+
+    cursor:not-allowed;
+
+    border:none;
+}
+
+.seat-info{
+
+    display:flex;
+
+    gap:30px;
+
+    margin-top:30px;
+
+    justify-content:center;
+}
+
+.info-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.seat-demo{
+
+    width:25px;
+
+    height:25px;
+
+    border-radius:5px;
+}
+
+.available{
+
+    border:2px solid #0d6efd;
+}
+
+.selected{
+
+    background:#198754;
+}
+
+.booked{
+    background:#dc3545;
+}

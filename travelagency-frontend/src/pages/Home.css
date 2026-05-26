@@ -1,0 +1,63 @@
+.home-background{
+
+    height: 520px;
+
+    background-image:
+    linear-gradient(
+        to bottom,
+        rgba(255,255,255,0) 65%,
+        rgba(245,245,245,1) 100%
+    ),
+
+    url("../../public/images/bus-bg.jpg");
+
+    background-repeat: no-repeat;
+
+    background-size: cover;
+
+    background-position: center bottom;
+
+    position: relative;
+
+    padding-top: 20px;
+}
+
+.search-wrapper{
+
+    width: 82%;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 45px;
+
+    border-radius: 25px;
+
+    box-shadow:
+    0px 10px 30px rgba(0,0,0,0.25);
+
+    margin-top: 180px;
+}
+
+.search-title{
+
+    text-align: center;
+
+    margin-bottom: 40px;
+
+    font-size: 42px;
+
+    font-weight: bold;
+
+    color: #1f2937;
+}
+
+body{
+
+    background-color: #f5f5f5;
+
+    overflow-x: hidden;
+}
