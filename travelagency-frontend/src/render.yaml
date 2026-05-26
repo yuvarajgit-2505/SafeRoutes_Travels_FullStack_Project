@@ -1,0 +1,20 @@
+services:
+
+  - type: web
+    name: safetravels-backend
+    env: java
+    rootDir: travelagency
+
+    buildCommand: "./mvnw clean install"
+
+    startCommand: "java -jar target/travelagency-0.0.1-SNAPSHOT.jar"
+
+    plan: free
+
+  - type: static
+    name: safetravels-frontend
+    rootDir: travelagency-frontend
+
+    buildCommand: "npm install && npm run build"
+
+    staticPublishPath: build
