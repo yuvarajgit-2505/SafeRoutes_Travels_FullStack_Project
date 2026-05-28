@@ -1,79 +1,118 @@
 package com.example.travel.travelagency.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.javamail.*;
+import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.internet.MimeMessage;
-
 import java.io.File;
+import java.nio.file.Files;
+import java.util.Base64;
 
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    @Value("${BREVO_API_KEY}")
+    private String apiKey;
 
     public void sendInvoiceEmail(
-        String toEmail,
-        String pdfPath){
-
-    System.out.println(
-            "EMAIL METHOD CALLED");
-
-    try{
-
-        MimeMessage message =
-                mailSender.createMimeMessage();
-
-        MimeMessageHelper helper =
-                new MimeMessageHelper(
-                        message,
-                        true
-                );
-
-        helper.setTo(toEmail);
-
-        helper.setSubject(
-                "Travel Booking Invoice"
-        );
-
-        helper.setText(
-                "Your booking invoice is attached."
-        );
+            String toEmail,
+            String pdfPath) {
 
         System.out.println(
-                "PDF PATH : " + pdfPath
-        );
+                "EMAIL METHOD CALLED");
 
-        FileSystemResource file =
-                new FileSystemResource(
-                        new File(pdfPath)
-                );
+        try {
 
-        System.out.println(
-                file.exists()
-        );
+            System.out.println(
+                    "PDF PATH : " + pdfPath
+            );
 
-        helper.addAttachment(
-        file.getFilename(),
-        file
-);
+            File file = new File(pdfPath);
 
-        System.out.println(
-                "BEFORE MAIL SEND"
-        );
+            System.out.println(
+                    file.exists()
+            );
 
-        mailSender.send(message);
+            byte[] fileBytes =
+                    Files.readAllBytes(
+                            file.toPath()
+                    );
 
-        System.out.println(
-                "MAIL SENT SUCCESSFULLY"
-        );
+            String encodedFile =
+                    Base64.getEncoder()
+                            .encodeToString(fileBytes);
 
-    }catch(Exception e){
+            OkHttpClient client =
+                    new OkHttpClient();
 
-        e.printStackTrace();
-    }
+            String json = """
+{
+  "sender": {
+    "name": "SafeRoutes Travels",
+    "email": "yuvaraj25525@gmail.com"
+  },
+  "to": [{
+    "email": "%s"
+  }],
+  "subject": "Travel Booking Invoice",
+  "textContent": "Your booking invoice is attached.",
+  "attachment": [{
+    "content": "%s",
+    "name": "%s"
+  }]
 }
+""".formatted(
+                    toEmail,
+                    encodedFile,
+                    file.getName()
+            );
+
+            RequestBody body =
+                    RequestBody.create(
+                            json,
+                            MediaType.parse(
+                                    "application/json")
+                    );
+
+            Request request =
+                    new Request.Builder()
+                            .url(
+                                    "https://api.brevo.com/v3/smtp/email"
+                            )
+                            .post(body)
+                            .addHeader(
+                                    "accept",
+                                    "application/json"
+                            )
+                            .addHeader(
+                                    "api-key",
+                                    apiKey
+                            )
+                            .addHeader(
+                                    "content-type",
+                                    "application/json"
+                            )
+                            .build();
+
+            System.out.println(
+                    "BEFORE MAIL SEND"
+            );
+
+            Response response =
+                    client.newCall(request)
+                            .execute();
+
+            System.out.println(
+                    response.body().string()
+            );
+
+            System.out.println(
+                    "MAIL SENT SUCCESSFULLY"
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
 }
